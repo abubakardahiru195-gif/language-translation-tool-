@@ -40,6 +40,6 @@ function copyText() {
 
   if (text && text !== "Translation will appear here...") {
     navigator.clipboard.writeText(text);
-    alert("Translation copied!");
+    alert("Translation copied!");// Translation tool
   }
 }
