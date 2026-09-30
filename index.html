@@ -1,43 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Translation Tool</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Language Translation Tool</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        <h1>Language Translation Tool</h1>
 
-        <textarea id="text" placeholder="Enter text to translate..."></textarea>
+  <div class="container">
 
-        <div class="language-selection">
-            <select id="sourceLanguage">
-                <option value="en">English</option>
-                <option value="fr">French</option>
-                <option value="es">Spanish</option>
-                <option value="de">German</option>
-                <option value="ar">Arabic</option>
-            </select>
+    <header>
+      <h1>🌐 Language Translator</h1>
+      <p>Translate text quickly and easily</p>
+    </header>
 
-            <select id="targetLanguage">
-                <option value="fr">French</option>
-                <option value="en">English</option>
-                <option value="es">Spanish</option>
-                <option value="de">German</option>
-                <option value="ar">Arabic</option>
-            </select>
+    <main class="translator-box">
+
+      <div class="language-row">
+
+        <div class="language-group">
+          <label>From</label>
+          <select id="sourceLanguage">
+            <option value="en">English</option>
+            <option value="fr">French</option>
+            <option value="es">Spanish</option>
+            <option value="de">German</option>
+            <option value="ar">Arabic</option>
+          </select>
         </div>
 
-        <button onclick="translateText()">Translate</button>
+        <button class="swap-btn" onclick="swapLanguages()">⇄</button>
 
+        <div class="language-group">
+          <label>To</label>
+          <select id="targetLanguage">
+            <option value="fr">French</option>
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+            <option value="de">German</option>
+            <option value="ar">Arabic</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="text-area">
+        <textarea id="text" placeholder="Enter text to translate..."></textarea>
+        <button class="clear-btn" onclick="clearText()">Clear</button>
+      </div>
+
+      <button class="translate-btn" onclick="translateText()">
+        Translate
+      </button>
+
+      <div class="result-box">
+        <h3>Translation</h3>
         <div id="result">Translation will appear here...</div>
 
-        <button onclick="copyText()">Copy Translation</button>
-    </div>
+        <div class="result-actions">
+          <button onclick="copyText()">📋 Copy</button>
+          <button onclick="speakText()">🔊 Listen</button>
+        </div>
+      </div>
 
-    <script src="script.js"></script>
+    </main>
+
+    <button class="theme-btn" onclick="toggleTheme()">
+      🌙 Dark Mode
+    </button>
+
+    <footer>
+      <p>© 2026 Language Translation Tool</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+
 </body>
 </html>
