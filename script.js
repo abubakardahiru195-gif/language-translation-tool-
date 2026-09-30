@@ -1,9 +1,16 @@
 async function translateText() {
   const text = document.getElementById("text").value.trim();
+  const source = document.getElementById("sourceLanguage").value;
+  const target = document.getElementById("targetLanguage").value;
   const result = document.getElementById("result");
 
   if (!text) {
     result.textContent = "Please enter some text to translate.";
+    return;
+  }
+
+  if (source === target) {
+    result.textContent = text;
     return;
   }
 
@@ -13,7 +20,8 @@ async function translateText() {
     const url =
       "https://api.mymemory.translated.net/get?q=" +
       encodeURIComponent(text) +
-      "&langpair=en|fr";
+      "&langpair=" +
+      encodeURIComponent(source + "|" + target);
 
     const response = await fetch(url);
 
@@ -23,20 +31,27 @@ async function translateText() {
 
     const data = await response.json();
 
-    result.textContent =
-      data.responseData.translatedText || "Translation failed.";
+    if (
+      data.responseData &&
+      data.responseData.translatedText
+    ) {
+      result.textContent = data.responseData.translatedText;
+    } else {
+      result.textContent = "Translation failed. Please try again.";
+    }
 
   } catch (error) {
     console.error(error);
-    result.textContent = "Translation error. Please try again.";
+    result.textContent =
+      "Translation error. Please check your internet connection.";
   }
 }
 
 function copyText() {
   const text = document.getElementById("result").textContent;
 
-  if (text) {
+  if (text && text !== "Translation will appear here...") {
     navigator.clipboard.writeText(text);
     alert("Translation copied!");
   }
-    }
+}
