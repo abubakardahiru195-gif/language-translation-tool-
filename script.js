@@ -1,4 +1,4 @@
-function translateText() {
+async function translateText() {
   const text = document.getElementById("text").value.trim();
   const result = document.getElementById("result");
 
@@ -9,26 +9,34 @@ function translateText() {
 
   result.textContent = "Translating...";
 
-  fetch(
-    "https://api.mymemory.translated.net/get?q=" +
-    encodeURIComponent(text) +
-    "&langpair=en|fr"
-  )
-    .then(response => response.json())
-    .then(data => {
-      if (data.responseData && data.responseData.translatedText) {
-        result.textContent = data.responseData.translatedText;
-      } else {
-        result.textContent = "Translation failed.";
-      }
-    })
-    .catch(error => {
-      result.textContent = "Translation error.";
-    });
+  try {
+    const url =
+      "https://api.mymemory.translated.net/get?q=" +
+      encodeURIComponent(text) +
+      "&langpair=en|fr";
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("API request failed");
+    }
+
+    const data = await response.json();
+
+    result.textContent =
+      data.responseData.translatedText || "Translation failed.";
+
+  } catch (error) {
+    console.error(error);
+    result.textContent = "Translation error. Please try again.";
+  }
 }
 
 function copyText() {
   const text = document.getElementById("result").textContent;
-  navigator.clipboard.writeText(text);
-  alert("Translation copied!");
-}
+
+  if (text) {
+    navigator.clipboard.writeText(text);
+    alert("Translation copied!");
+  }
+    }
