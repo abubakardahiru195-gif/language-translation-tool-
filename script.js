@@ -17,16 +17,18 @@ async function translateText() {
   result.textContent = "Translating...";
 
   try {
-    const url =
+    const apiUrl =
       "https://api.mymemory.translated.net/get?q=" +
       encodeURIComponent(text) +
       "&langpair=" +
-      encodeURIComponent(source + "|" + target);
+      source +
+      "|" +
+      target;
 
-    const response = await fetch(url);
+    const response = await fetch(apiUrl);
 
     if (!response.ok) {
-      throw new Error("API request failed");
+      throw new Error("Network error");
     }
 
     const data = await response.json();
@@ -34,23 +36,19 @@ async function translateText() {
     if (data.responseData && data.responseData.translatedText) {
       result.textContent = data.responseData.translatedText;
     } else {
-      result.textContent = "Translation failed. Please try again.";
+      result.textContent = "Translation failed.";
     }
 
   } catch (error) {
     console.error(error);
-    result.textContent =
-      "Translation error. Please check your internet connection.";
+    result.textContent = "Translation error. Please try again.";
   }
 }
 
 function copyText() {
   const text = document.getElementById("result").textContent;
 
-  if (
-    text &&
-    text !== "Translation will appear here..."
-  ) {
+  if (text && text !== "Translation will appear here...") {
     navigator.clipboard.writeText(text);
     alert("Translation copied!");
   }
