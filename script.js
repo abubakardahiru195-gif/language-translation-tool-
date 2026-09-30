@@ -31,10 +31,7 @@ async function translateText() {
 
     const data = await response.json();
 
-    if (
-      data.responseData &&
-      data.responseData.translatedText
-    ) {
+    if (data.responseData && data.responseData.translatedText) {
       result.textContent = data.responseData.translatedText;
     } else {
       result.textContent = "Translation failed. Please try again.";
@@ -50,8 +47,49 @@ async function translateText() {
 function copyText() {
   const text = document.getElementById("result").textContent;
 
-  if (text && text !== "Translation will appear here...") {
+  if (
+    text &&
+    text !== "Translation will appear here..."
+  ) {
     navigator.clipboard.writeText(text);
     alert("Translation copied!");
   }
+}
+
+function clearText() {
+  document.getElementById("text").value = "";
+  document.getElementById("result").textContent =
+    "Translation will appear here...";
+}
+
+function swapLanguages() {
+  const source = document.getElementById("sourceLanguage");
+  const target = document.getElementById("targetLanguage");
+
+  const temp = source.value;
+  source.value = target.value;
+  target.value = temp;
+}
+
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+
+  const button = document.querySelector(".theme-btn");
+
+  if (document.body.classList.contains("dark")) {
+    button.textContent = "☀️ Light Mode";
+  } else {
+    button.textContent = "🌙 Dark Mode";
+  }
+}
+
+function speakText() {
+  const text = document.getElementById("result").textContent;
+
+  if (!text || text === "Translation will appear here...") {
+    return;
+  }
+
+  const speech = new SpeechSynthesisUtterance(text);
+  window.speechSynthesis.speak(speech);
 }
